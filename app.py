@@ -1059,52 +1059,8 @@ def build_whatsapp_message_text(
     return msg.strip()
 
 
-# WhatsApp Templates
-if len(get_whatsapp_templates(include_inactive=False)) == 0:
-    now = now_str()
-    defaults = [
-        {
-            "name": "Default Appointment Reminder",
-            "scenario": "Appointment",
-            "booking_type": "Any",
-            "template_text": (
-                "Hello {owner_name},\n"
-                "This is {clinic_name}.\n"
-                "Reminder: {pet_name} appointment on {appointment_start}.\n"
-                "Service: {service_name}\n"
-                "{booking_details}\n"
-                "{portal_link_line}\n"
-                "Thank you."
-            ),
-            "is_default": "1",
-        },
-        {
-            "name": "Default Service Reminder",
-            "scenario": "Service",
-            "booking_type": "Any",
-            "template_text": (
-                "Hello {owner_name},\n"
-                "This is {clinic_name}.\n"
-                "Reminder: {pet_name} has {service_name} on {scheduled_for}.\n"
-                "{booking_details}\n"
-                "{portal_link_line}\n"
-                "Thank you."
-            ),
-            "is_default": "1",
-        },
-    ]
-    for d in defaults:
-        append_row(WHATSAPP_TEMPLATES_XLSX, {
-            "id": str(uuid.uuid4()),
-            "name": d["name"],
-            "scenario": d["scenario"],
-            "booking_type": d["booking_type"],
-            "template_text": d["template_text"],
-            "active": "1",
-            "is_default": d["is_default"],
-            "created_at": now,
-            "updated_at": now,
-        })
+# WhatsApp template seeding is handled inside seed_config_defaults()
+# which is called from init_storage() at module load time (see bottom of file).
 
 
 def auth_user(username, password):
